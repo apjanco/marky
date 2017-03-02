@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100,300,600' rel='stylesheet' type='text/css'>
+    <title>Doctored.js DEMO - a new kind of editor</title>
+    <link rel="stylesheet" href="screen.css">
+    <style> 
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Doctored.js XML editor Demo</h1>
+        <p class="moreinfo">More info? See the <a href="http://holloway.co.nz/doctored/">Doctored.js website</a></p>
+        <i></i><b></b><u></u><s></s>
+    </header>
+
+	<div>
+		<input type="text" id="filename" style="width:400px"></input>
+		<button onclick="onLoad()">Load!</button>
+		<button onclick="onSave()">Save!</button>
+	</div>
+    <div class="editor-container">
+        <div id="editor1"></div>
+    </div>
+    
+    <script src="doctored/doctored.js"></script>
+    <script>
+        var callback = function(){
+            if(window.console && window.console.log) console.log("Doctored.js: initialized " + this.id + "!")
+        };
+
+        doctored.init("#editor1", {
+            onload: callback,
+            id:     "editor1" // unique id per domain used for saving data (localStorage key). Doesn't need to be the same as the element Id.
+        });
+		
+		
+		function onSave()
+		{
+			var filename = document.getElementById("filename");
+			
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					alert("Saved Successfully!");
+				}
+			};
+			xhttp.open("post", "server.php", true);
+			xhttp.send( filename.value + ".xml!!!" + doctored.instances[0].get_xml_string() );
+		}
+		
+		function onLoad()
+		{
+			var filename = document.getElementById("filename");
+			
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			  doctored.instances[0].set_xml_string( this.responseText );
+			}
+			};
+			xhttp.open("POST", filename.value + ".xml", true);
+			xhttp.send();
+		}     
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="demo">
+<h1>The XMLHttpRequest Object</h1>
+<button type="button" onclick="loadDoc()">Change Content</button>
+</div>
+
+<script>
+function loadDoc() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+	  alert( this.responseText );
+    }
+  };
+	xhttp.open("post", "1.php", true);
+	xhttp.send("<h1>asdf</h1>");
+/*
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML = this.responseText;
+	  alert( this.responseText );
+    }
+  };
+  xhttp.open("POST", "1.xml", true);
+  xhttp.send("<h1>asdf<h1
+*/
+}
+</script>
+
+</body>
+</html>
